@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnDescrip — Criptografar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="toast" class="toast hidden"></div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">EnDescrip</div>
+    <div class="muted" id="sideUser"></div>
+    <nav class="nav">
+      <a href="index.html">Início</a>
+      <a href="criptografar.html" class="active">Criptografar</a>
+      <a href="descriptografar.html">Descriptografar</a>
+      <a href="administrar.html" id="navAdmin" class="hidden">Administração</a>
+      <button class="logout">↪ Sair</button>
+    </nav>
+  </aside>
+  <main class="main">
+    <h2>Criptografar mensagem</h2>
+    <div class="panel">
+      <label>Mensagem</label>
+      <input type="text" id="mensagem" placeholder="Digite uma mensagem...">
+      <label>Chave</label>
+      <input type="number" class="chave" id="chaveCrypt" placeholder="Selecione uma chave">
+      <div class="btn-row">
+        <button id="criarArvore">Criar árvore</button>
+        <button id="botaoEncriptar" disabled>Criptografar palavras</button>
+        <button id="baixarJSON" disabled>Baixar JSON</button>
+      </div>
+      <div class="canvas-wrap"><canvas id="canvasArvore" width="600" height="300"></canvas></div>
+      <div id="resultadoCrypt" class="result">A árvore da mensagem aparecerá aqui.</div>
+    </div>
+  </main>
+</div>
+
+<script src="common.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  let arvore = null;
+  let arvoreCodificada = null;
+
+  let mensagem = document.querySelector('#mensagem');
+  let chaveCrypt = document.querySelector('#chaveCrypt');
+  let canvas = document.querySelector('#canvasArvore');
+  let resultadoCrypt = document.querySelector('#resultadoCrypt');
+  let botaoCriarArvore = document.querySelector('#criarArvore');
+  let botaoEncriptar = document.querySelector('#botaoEncriptar');
+  let botaoBaixarJSON = document.querySelector('#baixarJSON');
+
+  botaoCriarArvore.addEventListener('click', function () {
+    let texto = mensagem.value;
+    if (texto.trim() === '') {
+      resultadoCrypt.textContent = 'Digite uma mensagem.';
+      return;
+    }
+
+    arvore = criarArvore(texto);
+    arvoreCodificada = null;
+    botaoBaixarJSON.disabled = true;
+    botaoEncriptar.disabled = false;
+
+    desenharArvore(canvas, arvore);
+    resultadoCrypt.textContent =
+      'Árvore criada! Percurso pós-ordem (ordem de envio): ' +
+      posOrdem(arvore).map(n => n.palavra).join(', ');
+  });
+
+  botaoEncriptar.addEventListener('click', function () {
+    if (arvore === null) {
+      resultadoCrypt.textContent = 'Primeiro crie a árvore.';
+      return;
+    }
+    if (chaveCrypt.value === '') {
+      resultadoCrypt.textContent = 'Digite uma chave.';
+      return;
+    }
+
+    let chave = Number(chaveCrypt.value);
+    arvoreCodificada = codificarArvore(arvore, chave);
+    botaoBaixarJSON.disabled = false;
+    resultadoCrypt.textContent =
+      'Palavras criptografadas com a chave ' + chave + '. Pronto para exportar o JSON.';
+  });
+
+  botaoBaixarJSON.addEventListener('click', function () {
+    if (arvoreCodificada === null) {
+      resultadoCrypt.textContent = 'Primeiro criptografe a árvore.';
+      return;
+    }
+    let json = JSON.stringify(arvoreCodificada, null, 2);
+    let arquivo = new Blob([json], { type: 'application/json' });
+    let link = document.createElement('a');
+    link.href = URL.createObjectURL(arquivo);
+    link.download = 'mensagem.json';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  });
+})();
+</script>
+</body>
+</html>

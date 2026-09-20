@@ -3,65 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EnDescrip</title>
+<title>EnDescrip — Início</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="toast" class="toast hidden"></div>
 
-<!-- LOGIN -->
-<div id="loginScreen" class="screen center">
-  <div class="card auth">
-    <div class="brand">EnDescrip</div>
-    <div class="subtitle">Entre com sua conta</div>
-    <div id="loginMsg" class="msg error hidden"></div>
-    <label>Usuário</label>
-    <input id="loginUser" placeholder="Digite seu usuário" autocomplete="username">
-    <label>Senha</label>
-    <input id="loginPass" type="password" placeholder="Digite sua senha" autocomplete="current-password">
-    <button class="btn primary wide" onclick="login()">Entrar</button>
-    <div class="switch">Ainda não possui conta? <button class="link" onclick="showRegister()">Criar cadastro</button></div>
-    <div class="hint">Administrador de demonstração: <b>admin</b> / <b>admin123</b></div>
-  </div>
-</div>
-
-<!-- CADASTRO -->
-<div id="registerScreen" class="screen center hidden">
-  <div class="card auth">
-    <div class="brand">Criar cadastro</div>
-    <div class="subtitle">Solicite acesso à equipe</div>
-    <div id="regMsg" class="msg error hidden"></div>
-    <label>Nome</label><input id="regName" placeholder="Seu nome completo">
-    <label>E-mail</label><input id="regEmail" type="email" placeholder="voce@empresa.com">
-    <label>Usuário</label><input id="regUser" placeholder="Escolha um usuário">
-    <label>Senha</label><input id="regPass" type="password" placeholder="Escolha uma senha">
-    <button class="btn primary wide" onclick="register()">Solicitar cadastro</button>
-    <div class="switch"><button class="link" onclick="showLogin()">Voltar ao login</button></div>
-  </div>
-</div>
-
-<!-- APP -->
-<div id="app" class="app hidden">
+<div class="app">
   <aside class="sidebar">
     <div class="brand">EnDescrip</div>
     <div class="muted" id="sideUser"></div>
     <nav class="nav">
-      <button id="navHome" class="active" onclick="page('home')">Início</button>
-      <button id="navEncrypt" onclick="page('encrypt')">Criptografar</button>
-      <button id="navDecrypt" onclick="page('decrypt')">Descriptografar</button>
-      <button id="navAdmin" class="hidden" onclick="page('admin')">Administração</button>
-      <button class="logout" onclick="logout()">↪ Sair</button>
+      <a href="index.html" class="active">Início</a>
+      <a href="criptografar.html">Criptografar</a>
+      <a href="descriptografar.html">Descriptografar</a>
+      <a href="administrar.html" id="navAdmin" class="hidden">Administração</a>
+      <button class="logout">↪ Sair</button>
     </nav>
   </aside>
   <main class="main">
-    <div id="homePage" class="page"></div>
-    <div id="encryptPage" class="page hidden"></div>
-    <div id="decryptPage" class="page hidden"></div>
-    <div id="adminPage" class="page hidden"></div>
+    <div id="homePage"></div>
   </main>
 </div>
 
-<script src="script.js"></script>
+<script src="common.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

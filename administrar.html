@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnDescrip — Administração</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="toast" class="toast hidden"></div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">EnDescrip</div>
+    <div class="muted" id="sideUser"></div>
+    <nav class="nav">
+      <a href="index.html">Início</a>
+      <a href="criptografar.html">Criptografar</a>
+      <a href="descriptografar.html">Descriptografar</a>
+      <a href="administrar.html" id="navAdmin" class="active">Administração</a>
+      <button class="logout">↪ Sair</button>
+    </nav>
+  </aside>
+  <main class="main">
+    <h2>Administração de cadastros</h2>
+    <h3>Pendentes (<span id="countPendentes">0</span>)</h3>
+    <div class="user-list" id="listaPendentes"></div>
+    <h3>Aprovados (<span id="countAprovados">0</span>)</h3>
+    <div class="user-list" id="listaAprovados"></div>
+    <h3>Recusados (<span id="countRecusados">0</span>)</h3>
+    <div class="user-list" id="listaRecusados"></div>
+  </main>
+</div>
+
+<script src="common.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  // só admin pode acessar esta página
+  if (!requireAdmin()) return;
+
+  function mudarStatus(id, novoStatus) {
+    let users = loadUsers();
+    let u = users.find(x => x.id === id);
+    if (!u) return;
+    u.status = novoStatus;
+    saveUsers(users);
+    showToast('Cadastro atualizado.');
+    render();
+  }
+
+  function render() {
+    let users = loadUsers();
+    let pendentes = users.filter(u => u.status === 'pendente');
+    let aprovados = users.filter(u => u.status === 'aprovado');
+    let recusados = users.filter(u => u.status === 'recusado');
+
+    document.querySelector('#countPendentes').textContent = pendentes.length;
+    document.querySelector('#countAprovados').textContent = aprovados.length;
+    document.querySelector('#countRecusados').textContent = recusados.length;
+
+    let listaPendentes = document.querySelector('#listaPendentes');
+    let listaAprovados = document.querySelector('#listaAprovados');
+    let listaRecusados = document.querySelector('#listaRecusados');
+    listaPendentes.innerHTML = '';
+    listaAprovados.innerHTML = '';
+    listaRecusados.innerHTML = '';
+
+    if (pendentes.length === 0) listaPendentes.innerHTML = '<p class="muted">Nenhum cadastro pendente.</p>';
+    pendentes.forEach(u => {
+      let div = document.createElement('div');
+      div.className = 'user-card';
+      div.innerHTML = `
+        <div><b>${u.nome}</b> — @${u.username}<br><span class="muted">${u.email}</span></div>
+        <div class="user-actions">
+          <button class="btn ok">Aceitar</button>
+          <button class="btn danger">Recusar</button>
+        </div>
+      `;
+      div.querySelector('.ok').addEventListener('click', () => mudarStatus(u.id, 'aprovado'));
+      div.querySelector('.danger').addEventListener('click', () => mudarStatus(u.id, 'recusado'));
+      listaPendentes.appendChild(div);
+    });
+
+    if (aprovados.length === 0) listaAprovados.innerHTML = '<p class="muted">Nenhum usuário aprovado ainda.</p>';
+    aprovados.forEach(u => {
+      let div = document.createElement('div');
+      div.className = 'user-card';
+      div.innerHTML = `<div><b>${u.nome}</b> — @${u.username} ${u.isAdmin ? '<span class="tag">admin</span>' : ''}<br><span class="muted">${u.email}</span></div>`;
+      listaAprovados.appendChild(div);
+    });
+
+    if (recusados.length === 0) listaRecusados.innerHTML = '<p class="muted">Nenhum cadastro recusado.</p>';
+    recusados.forEach(u => {
+      let div = document.createElement('div');
+      div.className = 'user-card';
+      div.innerHTML = `
+        <div><b>${u.nome}</b> — @${u.username}<br><span class="muted">${u.email}</span></div>
+        <div class="user-actions"><button class="btn ok">Reconsiderar</button></div>
+      `;
+      div.querySelector('.ok').addEventListener('click', () => mudarStatus(u.id, 'aprovado'));
+      listaRecusados.appendChild(div);
+    });
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

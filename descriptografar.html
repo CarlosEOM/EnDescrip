@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnDescrip — Descriptografar</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="toast" class="toast hidden"></div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">EnDescrip</div>
+    <div class="muted" id="sideUser"></div>
+    <nav class="nav">
+      <a href="index.html">Início</a>
+      <a href="criptografar.html">Criptografar</a>
+      <a href="descriptografar.html" class="active">Descriptografar</a>
+      <a href="administrar.html" id="navAdmin" class="hidden">Administração</a>
+      <button class="logout">↪ Sair</button>
+    </nav>
+  </aside>
+  <main class="main">
+    <h2>Descriptografar mensagem</h2>
+    <div class="panel">
+      <label>Arquivo JSON</label>
+      <input type="file" id="arquivoMensagem" accept=".json">
+      <label>Chave</label>
+      <input type="number" class="chave" id="chaveDecrypt" placeholder="Selecione uma chave">
+      <div class="btn-row">
+        <button id="descriptografar">Descriptografar</button>
+      </div>
+      <div id="resultadoDecrypt" class="result">O resultado aparecerá aqui.</div>
+    </div>
+  </main>
+</div>
+
+<script src="common.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  let jsonAtual = null;
+  let arquivoMensagem = document.querySelector('#arquivoMensagem');
+  let chaveDecrypt = document.querySelector('#chaveDecrypt');
+  let resultadoDecrypt = document.querySelector('#resultadoDecrypt');
+
+  arquivoMensagem.addEventListener('change', function (evento) {
+    let arquivo = evento.target.files[0];
+    if (!arquivo) return;
+    let leitor = new FileReader();
+    leitor.onload = function (e) {
+      try {
+        jsonAtual = JSON.parse(e.target.result);
+        resultadoDecrypt.textContent = 'Arquivo JSON carregado. Digite a chave e clique em Descriptografar.';
+      } catch (erro) {
+        jsonAtual = null;
+        resultadoDecrypt.textContent = 'Erro: arquivo JSON inválido.';
+      }
+    };
+    leitor.readAsText(arquivo);
+  });
+
+  document.querySelector('#descriptografar').addEventListener('click', function () {
+    if (jsonAtual === null) {
+      resultadoDecrypt.textContent = 'Selecione um arquivo JSON.';
+      return;
+    }
+    if (chaveDecrypt.value === '') {
+      resultadoDecrypt.textContent = 'Digite a chave.';
+      return;
+    }
+    let chave = Number(chaveDecrypt.value);
+    try {
+      resultadoDecrypt.textContent = descriptografar(jsonAtual, chave);
+    } catch (erro) {
+      resultadoDecrypt.textContent = 'Erro ao descriptografar. Verifique a chave e o arquivo.';
+    }
+  });
+})();
+</script>
+</body>
+</html>

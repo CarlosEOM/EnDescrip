@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnDescrip — Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="toast" class="toast hidden"></div>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="screen center">
+  <div class="card auth">
+    <div class="brand">EnDescrip</div>
+    <div class="subtitle">Entre com sua conta</div>
+    <div id="loginMsg" class="msg error hidden"></div>
+    <label>Usuário</label>
+    <input id="loginUser" placeholder="Digite seu usuário" autocomplete="username">
+    <label>Senha</label>
+    <input id="loginPass" type="password" placeholder="Digite sua senha" autocomplete="current-password">
+    <button class="btn primary wide" id="btnLogin">Entrar</button>
+    <div class="switch">Ainda não possui conta? <button class="link" id="btnShowRegister">Criar cadastro</button></div>
+    <div class="hint">Administrador de demonstração: <b>admin</b> / <b>admin123</b></div>
+  </div>
+</div>
+
+<!-- CADASTRO -->
+<div id="registerScreen" class="screen center hidden">
+  <div class="card auth">
+    <div class="brand">Criar cadastro</div>
+    <div class="subtitle">Solicite acesso à equipe</div>
+    <div id="regMsg" class="msg error hidden"></div>
+    <label>Nome</label><input id="regName" placeholder="Seu nome completo">
+    <label>E-mail</label><input id="regEmail" type="email" placeholder="voce@empresa.com">
+    <label>Usuário</label><input id="regUser" placeholder="Escolha um usuário">
+    <label>Senha</label><input id="regPass" type="password" placeholder="Escolha uma senha">
+    <button class="btn primary wide" id="btnRegister">Solicitar cadastro</button>
+    <div class="switch"><button class="link" id="btnShowLogin">Voltar ao login</button></div>
+  </div>
+</div>
+
+<script src="common.js"></script>
+<script>
+seedAdmin();
+if (getSession() && currentUser()) window.location.href = 'index.html';
+
+const loginScreen = document.querySelector('#loginScreen');
+const registerScreen = document.querySelector('#registerScreen');
+
+function showLogin() {
+  document.querySelector('#loginMsg').classList.add('hidden');
+  registerScreen.classList.add('hidden');
+  loginScreen.classList.remove('hidden');
+}
+function showRegister() {
+  document.querySelector('#regMsg').classList.add('hidden');
+  loginScreen.classList.add('hidden');
+  registerScreen.classList.remove('hidden');
+}
+
+document.querySelector('#btnShowRegister').addEventListener('click', showRegister);
+document.querySelector('#btnShowLogin').addEventListener('click', showLogin);
+
+document.querySelector('#btnLogin').addEventListener('click', function () {
+  let username = document.querySelector('#loginUser').value.trim();
+  let senha = document.querySelector('#loginPass').value;
+  let msg = document.querySelector('#loginMsg');
+
+  if (!username || !senha) {
+    msg.textContent = 'Preencha usuário e senha.';
+    msg.classList.remove('hidden');
+    return;
+  }
+
+  let user = loadUsers().find(u => u.username === username && u.senha === senha);
+
+  if (!user) {
+    msg.textContent = 'Usuário ou senha inválidos.';
+    msg.classList.remove('hidden');
+    return;
+  }
+  if (user.status === 'pendente') {
+    msg.textContent = 'Seu cadastro ainda está aguardando aprovação do administrador.';
+    msg.classList.remove('hidden');
+    return;
+  }
+  if (user.status === 'recusado') {
+    msg.textContent = 'Seu cadastro foi recusado pelo administrador.';
+    msg.classList.remove('hidden');
+    return;
+  }
+
+  setSession(user.username);
+  window.location.href = 'index.html';
+});
+
+document.querySelector('#btnRegister').addEventListener('click', function () {
+  let nome = document.querySelector('#regName').value.trim();
+  let email = document.querySelector('#regEmail').value.trim();
+  let username = document.querySelector('#regUser').value.trim();
+  let senha = document.querySelector('#regPass').value;
+  let msg = document.querySelector('#regMsg');
+
+  if (!nome || !email || !username || !senha) {
+    msg.textContent = 'Preencha todos os campos.';
+    msg.classList.remove('hidden');
+    return;
+  }
+
+  let users = loadUsers();
+  if (users.find(u => u.username === username)) {
+    msg.textContent = 'Esse nome de usuário já existe.';
+    msg.classList.remove('hidden');
+    return;
+  }
+
+  users.push({
+    id: 'u_' + Date.now(),
+    nome, email, username, senha,
+    status: 'pendente',
+    isAdmin: false
+  });
+  saveUsers(users);
+
+  document.querySelector('#regName').value = '';
+  document.querySelector('#regEmail').value = '';
+  document.querySelector('#regUser').value = '';
+  document.querySelector('#regPass').value = '';
+
+  showLogin();
+  showToast('Cadastro enviado! Aguarde a aprovação do administrador.');
+});
+</script>
+</body>
+</html>
