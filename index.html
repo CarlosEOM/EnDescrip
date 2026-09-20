@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnDescrip</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="topbar">
+        <h1 id="header">EnDescrip</h1>
+        <a class="link-out" href="login.html">↪ Sair</a>
+    </div>
+
+    <div class="container">
+        <!-- Criptografia -->
+        <div class="encrypt">
+            <div class="encrypt-header">
+                <h2>CRIPTOGRAFAR</h2>
+                <div class="encrypt-title">
+                    Insira uma mensagem a ser criptografada
+                </div>
+            </div>
+
+            <div>
+                <input type="text" id="mensagem" placeholder="Digite uma mensagem...">
+                <div>
+                    <p>Insira uma chave</p>
+                    <input type="number" class="chave" id="chaveCrypt" placeholder="Selecione uma chave">
+                </div>
+
+                <div class="btn-row">
+                    <button id="criarArvore">Criar árvore</button>
+                    <button id="botaoEncriptar" disabled>Criptografar palavras</button>
+                    <button id="baixarJSON" disabled>Baixar JSON</button>
+                </div>
+            </div>
+
+            <div class="canvas-wrap"><canvas id="canvasArvore" width="440" height="240"></canvas></div>
+            <div id="resultadoCrypt">A árvore da mensagem aparecerá aqui.</div>
+        </div>
+
+        <!-- Descriptografia -->
+        <div class="decrypt">
+            <div class="decrypt-header">
+                <h2>DESCRIPTOGRAFAR</h2>
+                <div class="decrypt-title">
+                    Insira a mensagem criptografada
+                </div>
+            </div>
+            <div>
+                <input type="file" id="arquivoMensagem" accept=".json">
+                <div>
+                    <p>Insira uma chave</p>
+                    <input type="number" class="chave" id="chaveDecrypt" placeholder="Selecione uma chave">
+                </div>
+                <button id="descriptografar">
+                    Descriptografar
+                </button>
+            </div>
+            <div id="resultadoDecrypt"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

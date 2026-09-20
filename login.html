@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnDescrip — Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="screen center">
+  <div class="card auth">
+    <div class="brand">EnDescrip</div>
+    <div class="subtitle">Entre com sua conta</div>
+    <div id="loginMsg" class="msg error hidden"></div>
+    <label>Usuário</label>
+    <input id="loginUser" placeholder="Digite seu usuário" autocomplete="username">
+    <label>Senha</label>
+    <input id="loginPass" type="password" placeholder="Digite sua senha" autocomplete="current-password">
+    <button class="btn primary wide" onclick="login()">Entrar</button>
+    <div class="hint">Usuário de demonstração: <b>admin</b> / <b>admin123</b></div>
+  </div>
+</div>
+
+<script>
+    // Login simplificado de protótipo: sem banco de dados, apenas
+    // verifica o usuário administrador fixo abaixo.
+    function login() {
+        let usuario = document.querySelector('#loginUser').value.trim();
+        let senha = document.querySelector('#loginPass').value;
+        let msg = document.querySelector('#loginMsg');
+
+        if (usuario === 'admin' && senha === 'admin123') {
+            window.location.href = 'index.html';
+        } else {
+            msg.textContent = 'Usuário ou senha inválidos.';
+            msg.classList.remove('hidden');
+        }
+    }
+
+    // Permite logar apertando Enter em qualquer campo
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') login();
+    });
+</script>
+</body>
+</html>
