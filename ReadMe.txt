@@ -1,4 +1,6 @@
 Projeto EnDescrip - Criptografia por árvore
+Protótipo em HTML - Abrir usando VS Code Go Live ou arquivo Html
+
 
 Integrantes:
     Ana Carolina Siqueira Machado - 202515089
