@@ -197,7 +197,7 @@ def criptografar():
             registrar_historico(usuario_atual()['username'], 'criptografado', mensagem[:120])
 
             resultado = (
-                'Árvore criada e criptografada com a chave padrão do sistema (%d). '
+                'Árvore criada e criptografada. '
                 'Percurso pós-ordem (ordem de envio): %s' % (CHAVE_PADRAO, ordem_pos)
             )
 
