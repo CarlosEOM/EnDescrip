@@ -1,7 +1,3 @@
-// Sprint 2: toda a lógica de árvore/criptografia foi movida para o backend
-// em Python (tree_crypto.py). Este arquivo cuida apenas da interface:
-// exibir o toast de aviso e desenhar a árvore no <canvas>.
-
 document.addEventListener('DOMContentLoaded', function () {
     let toast = document.querySelector('#toast');
     if (toast && toast.textContent.trim() !== '') {
