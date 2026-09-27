@@ -6,6 +6,7 @@
   <form method="post" enctype="multipart/form-data">
     <label>Arquivo JSON</label>
     <input type="file" name="arquivo" accept=".json">
+    <div class="muted">Chave de descriptografia padrão do sistema: <b>{{ chave }}</b></div>
     <div class="btn-row">
       <button type="submit">Descriptografar</button>
     </div>

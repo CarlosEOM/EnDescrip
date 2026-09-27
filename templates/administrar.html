@@ -31,6 +31,12 @@
   {% for u in aprovados %}
   <div class="user-card">
     <div><b>{{ u.nome }}</b> — @{{ u.username }} {% if u.isAdmin %}<span class="tag">admin</span>{% endif %}<br><span class="muted">{{ u.email }}</span></div>
+    <div class="user-actions">
+      <form method="post" action="{{ url_for('administrar_remover') }}" onsubmit="return confirm('Remover o cadastro de {{ u.nome }} (@{{ u.username }})? Essa ação não pode ser desfeita.');">
+        <input type="hidden" name="id" value="{{ u.id }}">
+        <button class="btn danger" type="submit">Remover</button>
+      </form>
+    </div>
   </div>
   {% else %}
   <p class="muted">Nenhum usuário aprovado ainda.</p>

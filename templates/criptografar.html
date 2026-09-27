@@ -6,6 +6,7 @@
   <form method="post">
     <label>Mensagem</label>
     <input type="text" name="mensagem" value="{{ mensagem }}" placeholder="Digite uma mensagem...">
+    <div class="muted">Chave de criptografia padrão do sistema: <b>{{ chave }}</b></div>
     <div class="btn-row">
       <button type="submit">Criar árvore e criptografar</button>
       {% if pronto_download %}
@@ -21,6 +22,7 @@
   <div id="resultadoCrypt" class="result">{{ resultado or 'A árvore da mensagem aparecerá aqui.' }}</div>
 </div>
 {% endblock %}
+
 {% block script_extra %}
 {% if arvore_json %}
 <script>

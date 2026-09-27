@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-app.py
-Aplicação EnDescrip — Sprint 2.
-Backend em Flask/Python (antes a lógica ficava toda em JavaScript no navegador).
-"""
-
 import io
 import json
 import os
@@ -204,7 +197,7 @@ def criptografar():
             registrar_historico(usuario_atual()['username'], 'criptografado', mensagem[:120])
 
             resultado = (
-                'Árvore criada e criptografada(%d). '
+                'Árvore criada e criptografada com a chave padrão do sistema (%d). '
                 'Percurso pós-ordem (ordem de envio): %s' % (CHAVE_PADRAO, ordem_pos)
             )
 
@@ -297,6 +290,31 @@ def administrar_status():
             u['status'] = novo_status
     salvar_usuarios(usuarios)
     flash('Cadastro atualizado.', 'ok')
+    return redirect(url_for('administrar'))
+
+
+@app.route('/administrar/remover', methods=['POST'])
+@admin_obrigatorio
+def administrar_remover():
+    user_id = request.form.get('id')
+    usuarios = carregar_usuarios()
+    alvo = next((u for u in usuarios if u['id'] == user_id), None)
+
+    if alvo is None:
+        flash('Cadastro não encontrado.', 'erro')
+        return redirect(url_for('administrar'))
+
+    if alvo['username'] == usuario_atual()['username']:
+        flash('Você não pode remover o seu próprio cadastro.', 'erro')
+        return redirect(url_for('administrar'))
+
+    if alvo.get('isAdmin') and sum(1 for u in usuarios if u.get('isAdmin')) <= 1:
+        flash('Não é possível remover o único administrador do sistema.', 'erro')
+        return redirect(url_for('administrar'))
+
+    usuarios = [u for u in usuarios if u['id'] != user_id]
+    salvar_usuarios(usuarios)
+    flash('Cadastro removido.', 'ok')
     return redirect(url_for('administrar'))
 
 
