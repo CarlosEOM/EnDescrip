@@ -6,7 +6,6 @@
   <form method="post">
     <label>Mensagem</label>
     <input type="text" name="mensagem" value="{{ mensagem }}" placeholder="Digite uma mensagem...">
-    <div class="muted">Chave de criptografia padrão do sistema: <b>{{ chave }}</b></div>
     <div class="btn-row">
       <button type="submit">Criar árvore e criptografar</button>
       {% if pronto_download %}
