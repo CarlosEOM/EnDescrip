@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block titulo %}Criptografar{% endblock %}
+{% block conteudo %}
+<h2>Criptografar mensagem</h2>
+<div class="panel">
+  <form method="post">
+    <label>Mensagem</label>
+    <input type="text" name="mensagem" value="{{ mensagem }}" placeholder="Digite uma mensagem...">
+    <div class="btn-row">
+      <button type="submit">Criar árvore e criptografar</button>
+      {% if pronto_download %}
+      <button type="submit" formaction="{{ url_for('baixar_json') }}" formmethod="get">Baixar JSON</button>
+      {% endif %}
+    </div>
+  </form>
+
+  {% if arvore_json %}
+  <div class="canvas-wrap"><canvas id="canvasArvore" width="600" height="300"></canvas></div>
+  {% endif %}
+
+  <div id="resultadoCrypt" class="result">{{ resultado or 'A árvore da mensagem aparecerá aqui.' }}</div>
+</div>
+{% endblock %}
+{% block script_extra %}
+{% if arvore_json %}
+<script>
+  var dadosArvore = {{ arvore_json | safe }};
+  desenharArvore(document.querySelector('#canvasArvore'), dadosArvore);
+</script>
+{% endif %}
+{% endblock %}

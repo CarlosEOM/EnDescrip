@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnDescrip — {% block titulo %}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div id="toast" class="toast {{ '' if toast_msg else 'hidden' }}">{{ toast_msg or '' }}</div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">EnDescrip</div>
+    {% if user %}<div class="muted">{{ user.nome }} (@{{ user.username }})</div>{% endif %}
+    <nav class="nav">
+      <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' else '' }}">Início</a>
+      <a href="{{ url_for('criptografar') }}" class="{{ 'active' if request.endpoint == 'criptografar' else '' }}">Criptografar</a>
+      <a href="{{ url_for('descriptografar_view') }}" class="{{ 'active' if request.endpoint == 'descriptografar_view' else '' }}">Descriptografar</a>
+      <a href="{{ url_for('historico') }}" class="{{ 'active' if request.endpoint == 'historico' else '' }}">Histórico</a>
+      {% if user and user.isAdmin %}
+      <a href="{{ url_for('administrar') }}" class="{{ 'active' if request.endpoint == 'administrar' else '' }}">Administração</a>
+      {% endif %}
+      <a href="{{ url_for('logout') }}" class="logout-link">↪ Sair</a>
+    </nav>
+  </aside>
+  <main class="main">
+    {% block conteudo %}{% endblock %}
+  </main>
+</div>
+
+<script src="{{ url_for('static', filename='common.js') }}"></script>
+{% block script_extra %}{% endblock %}
+</body>
+</html>

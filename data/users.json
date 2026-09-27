@@ -1,0 +1,20 @@
+[
+  {
+    "id": "u_admin",
+    "nome": "Administrador",
+    "email": "admin@empresa.com",
+    "username": "admin",
+    "senha_hash": "scrypt:32768:8:1$KHxXxLrXxSLal6tP$9bf3aa185540ea0e421b9f5a4818c41e3e6ca158c5d80adeb4bf2689294a4faf90ccf005071a8aee824e120338ec6ed7b9b6d6597976358379deae4eba8cb66b",
+    "status": "aprovado",
+    "isAdmin": true
+  },
+  {
+    "id": "u_20260927012119728443",
+    "nome": "Claudio",
+    "email": "ceoliveiramelo@gmail.com",
+    "username": "Ferar",
+    "senha_hash": "scrypt:32768:8:1$zVxGTtJDBjQBZgsL$88b5298d3ed1ed03c2c958786080e597fad3fea1bb89a29cf0cefcfffc18947ecd65aba280fe285c130073682481beb4cc4f2e8b0250d4a05d7c5ef0a5ae5939",
+    "status": "aprovado",
+    "isAdmin": false
+  }
+]

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block titulo %}Descriptografar{% endblock %}
+{% block conteudo %}
+<h2>Descriptografar mensagem</h2>
+<div class="panel">
+  <form method="post" enctype="multipart/form-data">
+    <label>Arquivo JSON</label>
+    <input type="file" name="arquivo" accept=".json">
+    <div class="btn-row">
+      <button type="submit">Descriptografar</button>
+    </div>
+  </form>
+  <div id="resultadoDecrypt" class="result">{{ resultado or 'O resultado aparecerá aqui.' }}</div>
+</div>
+{% endblock %}

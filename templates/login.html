@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnDescrip — Login</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div id="toast" class="toast {{ '' if toast_msg else 'hidden' }}">{{ toast_msg or '' }}</div>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="screen center {{ 'hidden' if tela == 'cadastro' else '' }}">
+  <div class="card auth">
+    <div class="brand">EnDescrip</div>
+    <div class="subtitle">Entre com sua conta</div>
+    {% if erro %}<div class="msg error">{{ erro }}</div>{% endif %}
+    <form method="post" action="{{ url_for('login') }}">
+      <label>Usuário</label>
+      <input name="username" placeholder="Digite seu usuário" autocomplete="username">
+      <label>Senha</label>
+      <input name="senha" type="password" placeholder="Digite sua senha" autocomplete="current-password">
+      <button class="btn primary wide" type="submit">Entrar</button>
+    </form>
+    <div class="switch">Ainda não possui conta? <a class="link" href="{{ url_for('login', tela='cadastro') }}">Criar cadastro</a></div>
+    <div class="hint">Administrador de demonstração: <b>admin</b> / <b>admin123</b></div>
+  </div>
+</div>
+
+<!-- CADASTRO -->
+<div id="registerScreen" class="screen center {{ '' if tela == 'cadastro' else 'hidden' }}">
+  <div class="card auth">
+    <div class="brand">Criar cadastro</div>
+    <div class="subtitle">Solicite acesso à equipe</div>
+    {% if erro_cadastro %}<div class="msg error">{{ erro_cadastro }}</div>{% endif %}
+    <form method="post" action="{{ url_for('cadastro') }}">
+      <label>Nome</label><input name="nome" placeholder="Seu nome completo">
+      <label>E-mail</label><input name="email" type="email" placeholder="voce@empresa.com">
+      <label>Usuário</label><input name="username" placeholder="Escolha um usuário">
+      <label>Senha</label><input name="senha" type="password" placeholder="Escolha uma senha">
+      <button class="btn primary wide" type="submit">Solicitar cadastro</button>
+    </form>
+    <div class="switch"><a class="link" href="{{ url_for('login') }}">Voltar ao login</a></div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='common.js') }}"></script>
+</body>
+</html>

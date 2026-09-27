@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block titulo %}Início{% endblock %}
+{% block conteudo %}
+<h1>Bem-vindo(a), {{ user.nome }}!</h1>
+<p class="muted">
+  Use o menu ao lado para criptografar uma mensagem em árvore binária,
+  consultar o histórico de mensagens já criptografadas/descriptografadas
+  ou para descriptografar um arquivo JSON recebido de um colega.
+</p>
+{% endblock %}

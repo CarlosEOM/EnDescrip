@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block titulo %}Histórico{% endblock %}
+{% block conteudo %}
+<h2>Histórico de mensagens</h2>
+<p class="muted">
+  {% if user.isAdmin %}
+  Exibindo o histórico de todos os usuários.
+  {% else %}
+  Exibindo o seu histórico de mensagens criptografadas e descriptografadas.
+  {% endif %}
+</p>
+
+<div class="user-list">
+  {% for h in registros %}
+  <div class="user-card">
+    <div>
+      <b>{{ 'Criptografado' if h.tipo == 'criptografado' else 'Descriptografado' }}</b>
+      {% if user.isAdmin %} — @{{ h.usuario }}{% endif %}
+      <span class="tag">{{ h.tipo }}</span>
+      <br>
+      <span class="muted">{{ h.data }}</span><br>
+      {{ h.resumo }}
+    </div>
+  </div>
+  {% else %}
+  <p class="muted">Nenhum registro no histórico ainda.</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block titulo %}Administração{% endblock %}
+{% block conteudo %}
+<h2>Administração de cadastros</h2>
+
+<h3>Pendentes ({{ pendentes|length }})</h3>
+<div class="user-list">
+  {% for u in pendentes %}
+  <div class="user-card">
+    <div><b>{{ u.nome }}</b> — @{{ u.username }}<br><span class="muted">{{ u.email }}</span></div>
+    <div class="user-actions">
+      <form method="post" action="{{ url_for('administrar_status') }}">
+        <input type="hidden" name="id" value="{{ u.id }}">
+        <input type="hidden" name="status" value="aprovado">
+        <button class="btn ok" type="submit">Aceitar</button>
+      </form>
+      <form method="post" action="{{ url_for('administrar_status') }}">
+        <input type="hidden" name="id" value="{{ u.id }}">
+        <input type="hidden" name="status" value="recusado">
+        <button class="btn danger" type="submit">Recusar</button>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <p class="muted">Nenhum cadastro pendente.</p>
+  {% endfor %}
+</div>
+
+<h3>Aprovados ({{ aprovados|length }})</h3>
+<div class="user-list">
+  {% for u in aprovados %}
+  <div class="user-card">
+    <div><b>{{ u.nome }}</b> — @{{ u.username }} {% if u.isAdmin %}<span class="tag">admin</span>{% endif %}<br><span class="muted">{{ u.email }}</span></div>
+  </div>
+  {% else %}
+  <p class="muted">Nenhum usuário aprovado ainda.</p>
+  {% endfor %}
+</div>
+
+<h3>Recusados ({{ recusados|length }})</h3>
+<div class="user-list">
+  {% for u in recusados %}
+  <div class="user-card">
+    <div><b>{{ u.nome }}</b> — @{{ u.username }}<br><span class="muted">{{ u.email }}</span></div>
+    <div class="user-actions">
+      <form method="post" action="{{ url_for('administrar_status') }}">
+        <input type="hidden" name="id" value="{{ u.id }}">
+        <input type="hidden" name="status" value="aprovado">
+        <button class="btn ok" type="submit">Reconsiderar</button>
+      </form>
+    </div>
+  </div>
+  {% else %}
+  <p class="muted">Nenhum cadastro recusado.</p>
+  {% endfor %}
+</div>
+{% endblock %}
