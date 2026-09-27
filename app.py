@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+app.py
+Aplicação EnDescrip — Sprint 2.
+Backend em Flask/Python (antes a lógica ficava toda em JavaScript no navegador).
+"""
+
 import io
 import json
 import os
@@ -11,13 +18,15 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from tree_crypto import (arvore_para_dict, codificar_arvore, criar_arvore,
                           descriptografar as descriptografar_dados, pos_ordem)
 
+# Chave de criptografia fixa do sistema (Sprint 2: não é mais escolhida pelo usuário)
 CHAVE_PADRAO = 44
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 USERS_FILE = os.path.join(BASE_DIR, 'data', 'users.json')
 HIST_FILE = os.path.join(BASE_DIR, 'data', 'historico.json')
 
 app = Flask(__name__)
-app.secret_key = 'endescrip-prototipo-secret-key'
+app.secret_key = 'endescrip-prototipo-secret-key'  # protótipo: ok ficar fixo
 
 
 # ---------- Persistência (arquivos JSON, mesma ideia do protótipo original) ----------
@@ -195,7 +204,7 @@ def criptografar():
             registrar_historico(usuario_atual()['username'], 'criptografado', mensagem[:120])
 
             resultado = (
-                'Árvore criada e criptografada. '
+                'Árvore criada e criptografada com a chave padrão do sistema (%d). '
                 'Percurso pós-ordem (ordem de envio): %s' % (CHAVE_PADRAO, ordem_pos)
             )
 

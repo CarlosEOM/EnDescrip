@@ -108,15 +108,6 @@ input:focus {
     box-shadow:
         0 0 0 3px rgba(69, 179, 111, 0.2);
 }
-
-
-
-.chave {
-    width: 180px;
-}
-
-
-
 button {
     border: none;
     color: white;
