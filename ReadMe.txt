@@ -15,6 +15,6 @@ Como rodar:
 Abrir Visual Studio Code
     1. pip install -r requirements.txt
     2. python app.py (ou apertar o botão para rodar no terminal)
-    3. Abrir http://127.0.0.1:5000 no navegador (Deve aparecer um link para seguir)
+    3. Abrir o endereço mostrado no navegador (Deve aparecer um link para seguir)
 
 Login de administrador de demonstração: admin / admin123
