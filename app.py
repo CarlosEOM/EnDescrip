@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-app.py
-Aplicação EnDescrip — Sprint 2.
-Backend em Flask/Python (antes a lógica ficava toda em JavaScript no navegador).
-"""
 
 import io
 import json
@@ -204,8 +198,7 @@ def criptografar():
             registrar_historico(usuario_atual()['username'], 'criptografado', mensagem[:120])
 
             resultado = (
-                'Árvore criada e criptografada com a chave padrão do sistema (%d). '
-                'Percurso pós-ordem (ordem de envio): %s' % (CHAVE_PADRAO, ordem_pos)
+                'Árvore criada e criptografada com a chave padrão do sistema. '
             )
 
     return render_template(
