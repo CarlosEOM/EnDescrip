@@ -1,12 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-tree_crypto.py
-Lógica de árvore binária (percurso pós-ordem) e codificação/decodificação
-de mensagens. Portado da versão original em JavaScript (Sprint 1) para
-Python (Sprint 2), mantendo exatamente a mesma regra de negócio.
-"""
-
-
 def calcular_valor(palavra):
     """Soma os códigos Unicode dos caracteres da palavra (equivalente ao
     charCodeAt somado no protótipo em JS)."""
