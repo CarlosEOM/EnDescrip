@@ -340,8 +340,10 @@ input[type="file"] {
 .btn-row button { flex: 1; min-width: 150px; }
 .btn-row button:disabled { background-color: #b6b6b6; cursor: not-allowed; }
 
-.canvas-wrap { width: 100%; overflow-x: auto; }
+.canvas-wrap { width: 100%; max-height: 420px; overflow: auto; }
 canvas#canvasArvore {
+    max-width: 100%;
+    height: auto;
     background: white;
     border-radius: 10px;
     border: 1px solid #ddd;

@@ -12,9 +12,22 @@ function desenharArvore(canvas, raiz) {
         if (no === null) return 0;
         return contarLargura(no.esquerda) + 1 + contarLargura(no.direita);
     }
+    function contarProfundidade(no) {
+        if (no === null) return 0;
+        return 1 + Math.max(contarProfundidade(no.esquerda), contarProfundidade(no.direita));
+    }
     let largura = Math.max(contarLargura(raiz), 1);
-    let passoX = 90;
-    canvas.width = Math.max(600, largura * passoX + 60);
+    let niveis = Math.max(contarProfundidade(raiz), 1);
+
+    // Espaçamento horizontal: usa o espaço disponível no painel, sem deixar os nós
+    // (raio 28) se sobreporem. Se mesmo assim não couber, o CSS reduz o canvas
+    // proporcionalmente, então a árvore aparece sempre inteira.
+    let disponivel = canvas.parentElement ? canvas.parentElement.clientWidth : 600;
+    let passoX = Math.max(60, Math.min(90, (disponivel - 80) / largura));
+    let passoY = 70;
+
+    canvas.width = Math.max(300, largura * passoX + 60);
+    canvas.height = 40 + (niveis - 1) * passoY + 50;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (!raiz) return;
@@ -24,7 +37,7 @@ function desenharArvore(canvas, raiz) {
         if (no === null) return;
         posicionar(no.esquerda, profundidade + 1);
         no._x = 40 + contador.i * passoX;
-        no._y = 40 + profundidade * 70;
+        no._y = 40 + profundidade * passoY;
         contador.i++;
         posicionar(no.direita, profundidade + 1);
     }
