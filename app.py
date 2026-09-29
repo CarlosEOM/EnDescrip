@@ -12,9 +12,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from tree_crypto import (arvore_para_dict, codificar_arvore, criar_arvore,
                           descriptografar as descriptografar_dados, pos_ordem)
 
-# Chave de criptografia fixa do sistema (Sprint 2: não é mais escolhida pelo usuário)
 CHAVE_PADRAO = 44
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 USERS_FILE = os.path.join(BASE_DIR, 'data', 'users.json')
 HIST_FILE = os.path.join(BASE_DIR, 'data', 'historico.json')
